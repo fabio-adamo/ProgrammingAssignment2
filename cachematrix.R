@@ -1,15 +1,37 @@
-## Put comments here that give an overall description of what your
-## functions do
+## I am using the given makeVector as a frame to create the makeCacheMatrix 
+## function and cacheMean as frame for cacheSolve
 
-## Write a short comment describing this function
+## This is my implementation of makeCacheMatrix
 
 makeCacheMatrix <- function(x = matrix()) {
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setinverse <- function(solve) m <<- solve
+  getinverse <- function() m
+  list(set = set, get = get,
+       setinverse = setinverse,
+       getinverse = getinverse)
+  
 
 }
 
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+## Here is my implementation of cacheSolve function
+## it returns a matrix that is the inverse of 'x'
+cacheSolve <- function(x) {
+        
+    m <- x$getinverse()
+    if(!is.null(m)) {
+      message("getting cached data")
+      return(m)
+    }
+    matrix <- x$get()
+    m <- solve(matrix)
+    x$setinverse(m)
+    m
+  
 }
